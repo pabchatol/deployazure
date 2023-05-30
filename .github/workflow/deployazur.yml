@@ -1,0 +1,23 @@
+name: despliegue a azure
+on: [push]
+jobs:
+  prueba:
+    runs-on: ubuntu-latest
+    steps:
+    - name: probando
+      run: echo "job de prueba"
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.4
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+      with:
+        source: "index.html"
+        target: "/var/www/html"
